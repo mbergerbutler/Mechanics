@@ -1,5 +1,6 @@
 import math
 from geom2d.vector import Vector
+from geom2d import nums
 
 
 class Point:
@@ -30,4 +31,15 @@ class Point:
             self.x + scaled_vec.u,
             self.y + scaled_vec.v
         )
-    
+
+    def __eq__(self, other):
+        if self is other:
+            return True
+
+        if not isinstance(other, Point):
+            return False
+
+        return nums.are_close_enough(self.x, other.x) and nums.are_close_enough(self.y, other.y)
+
+    def __str__(self):
+        return f'({self.x}, {self.y})'

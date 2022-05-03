@@ -50,3 +50,47 @@ class Vector:
 
     def is_perpendicular_to(self, other):
         return nums.is_close_to_zero(self.dot(other))
+
+    def angle_value_to(self, other):
+        dot_product = self.dot(other)
+        norm_product = self.norm * other.norm
+        return math.acos(dot_product / norm_product)
+
+    def angle_to(self, other):
+        value = self.angle_value_to(other)
+        cross_product = self.cross(other)
+        return math.copysign(value, cross_product)
+
+    def rotated_radians(self, radians):
+        cos = math.cos(radians)
+        sin = math.sin(radians)
+        return Vector(
+            self.u * cos - self.v * sin,
+            self.u * sin + self.v * cos
+        )
+
+    def perpendicular(self):
+        return Vector(-self.v, self.u)
+
+    def opposite(self):
+        return Vector(-self.u, -self.v)
+
+    @property
+    def sine(self):
+        return self.v / self.norm
+
+    @property
+    def cosine(self):
+        return self.u / self.norm
+
+    def __eq__(self, other):
+        if self is other:
+            return True
+
+        if not isinstance(other, Vector):
+            return False
+
+        return nums.are_close_enough(self.u, other.u) and nums.are_close_enough(self.v, other.v)
+
+    def __str__(self):
+        return f'({self.u}, {self.v}) with norm {self.norm}'
